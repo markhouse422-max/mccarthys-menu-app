@@ -209,17 +209,20 @@ function loadAllGuests() {
 
 // Send selection to Google Sheet
 function sendToSheet(mealTab, guestName, mainSelection, dessertSelection, dietaryNotes) {
-  if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_SCRIPT_URL_HERE") return; // not configured yet
+  if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_SCRIPT_URL_HERE") return;
   try {
+    const formData = new URLSearchParams();
+    formData.append("mealTab", mealTab);
+    formData.append("guestName", guestName);
+    formData.append("mainSelection", mainSelection || "");
+    formData.append("dessertSelection", dessertSelection || "");
+    formData.append("dietaryNotes", dietaryNotes || "");
     fetch(GOOGLE_SCRIPT_URL, {
       method: "POST",
-      
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mealTab, guestName, mainSelection, dessertSelection: dessertSelection || "", dietaryNotes: dietaryNotes || "" })
-    });
+      body: formData
+    }).then(r => console.log("Sent to sheet")).catch(e => console.log("Sheet sync pending"));
   } catch(e) { console.log("Sheet sync pending"); }
 }
-
 export default function App() {
   const [mode, setMode] = useState("splash");
   const [gName, setGName] = useState("");
