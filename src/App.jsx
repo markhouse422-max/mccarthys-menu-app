@@ -188,7 +188,7 @@ const ICONS = { Breakfast: "☀️", Lunch: "🍽️", "Bagged Lunch": "🥪", D
 // (the one you got when you deployed your Apps Script in Part 5
 // of the Google Sheets Setup Guide)
 // ═══════════════════════════════════════════════════════════════
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqRLWP57LJE33H88Xzacn2ahcULE63cbJBygM_SgbDsyJTFjwxb1FgsJKw1LmNKczSog/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxADHjKnJ-KJvqi5njMXgAIEnU1-vnSJywQv9jVDmKd0X3jtE4FYO4DwXZx_5XySh8Xdw/exec";
 
 // ─── STORAGE (localStorage for device + Google Sheets for you) ───
 const PFX = "mcp-";
