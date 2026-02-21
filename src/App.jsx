@@ -188,7 +188,7 @@ const ICONS = { Breakfast: "☀️", Lunch: "🍽️", "Bagged Lunch": "🥪", D
 // (the one you got when you deployed your Apps Script in Part 5
 // of the Google Sheets Setup Guide)
 // ═══════════════════════════════════════════════════════════════
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqRLWP57LJE33H88Xzacn2ahcULE63cbJBygM_SgbDsyJTFjwxb1FgsJKw1LmNKczSog/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxwSGlHzXvTFkU9ZEQ75WFB0Lpx-MCGhkN8QP1WtMP8ofgWEb175_VypSakqhw6QVr13g/exec";
 
 // ─── STORAGE (localStorage for device + Google Sheets for you) ───
 const PFX = "mcp-";
@@ -211,16 +211,16 @@ function loadAllGuests() {
 function sendToSheet(mealTab, guestName, mainSelection, dessertSelection, dietaryNotes) {
   if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_SCRIPT_URL_HERE") return;
   try {
-    const formData = new URLSearchParams();
-    formData.append("mealTab", mealTab);
-    formData.append("guestName", guestName);
-    formData.append("mainSelection", mainSelection || "");
-    formData.append("dessertSelection", dessertSelection || "");
-    formData.append("dietaryNotes", dietaryNotes || "");
-    fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      body: formData
-    }).then(r => console.log("Sent to sheet")).catch(e => console.log("Sheet sync pending"));
+    const params = new URLSearchParams({
+      mealTab: mealTab,
+      guestName: guestName,
+      mainSelection: mainSelection || "",
+      dessertSelection: dessertSelection || "",
+      dietaryNotes: dietaryNotes || ""
+    });
+    fetch(GOOGLE_SCRIPT_URL + "?" + params.toString())
+      .then(r => console.log("Sent to sheet"))
+      .catch(e => console.log("Sheet sync pending"));
   } catch(e) { console.log("Sheet sync pending"); }
 }
 export default function App() {
