@@ -208,14 +208,14 @@ function loadAllGuests() {
 }
 
 // Send selection to Google Sheet
-function sendToSheet(mealTab, guestName, mainSelection, dessertSelection, dietaryNotes) {
+function sendToSheet(mealTab, guestName, section, selection, dietaryNotes) {
   if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_SCRIPT_URL_HERE") return;
   try {
     const params = new URLSearchParams({
       mealTab: mealTab,
       guestName: guestName,
-      mainSelection: mainSelection || "",
-      dessertSelection: dessertSelection || "",
+      section: section,
+      selection: selection || "",
       dietaryNotes: dietaryNotes || ""
     });
     fetch(GOOGLE_SCRIPT_URL + "?" + params.toString())
