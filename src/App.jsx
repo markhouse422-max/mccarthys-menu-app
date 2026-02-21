@@ -255,6 +255,7 @@ export default function App() {
     const ex = load("g-"+n.toLowerCase().replace(/\s+/g,"-"));
     if(ex) { setGSel(ex.selections||{}); setGNotes(ex.notes||""); }
     else { setGSel({}); setGNotes(""); }
+    save("g-"+n.toLowerCase().replace(/\s+/g,"-"), { name: n, selections: ex ? ex.selections || {} : {}, notes: gNotes, updatedAt: new Date().toISOString() });
     setGName(n);
     setMode("guest");
   };
