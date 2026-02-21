@@ -35,23 +35,6 @@ const TOUR_DATA = [
   ]},
   { day: 4, title: "Ferry to Labrador & Red Bay", location: "L'Anse au Clair", subtitle: "Basque Whaling Station. L'Anse Amour.", meals: [
     { type: "Breakfast", note: "Included at hotel" },
-    { type: "Bagged Lunch", venue: "Plum Point Motel", venueLocation: "Plum Point, NL", deadline: "Evening of Day 3", sections: [
-      { title: "Sandwich", items: [
-        { name: "Ham", price: "$5.99", tags: [] }, { name: "Ham & Cheese", price: "$6.99", tags: [] },
-        { name: "Roast Beef", price: "$7.99", tags: [] }, { name: "Roast Turkey", price: "$7.99", tags: [] },
-      ]},
-      { title: "Bread", items: [{ name: "Whole Wheat", tags: [] }, { name: "White", tags: [] }] },
-      { title: "Spread", items: [{ name: "Miracle Whip", tags: [] }, { name: "Mustard", tags: [] }, { name: "Butter", tags: [] }] },
-      { title: "Beverage", items: [
-        { name: "Apple Juice", price: "$2.19", tags: [] }, { name: "Orange Juice", price: "$2.19", tags: [] },
-        { name: "Water", price: "$2.49", tags: [] }, { name: "Pepsi", price: "$2.19", tags: [] },
-        { name: "Diet Pepsi", price: "$2.19", tags: [] }, { name: "7 UP", price: "$2.19", tags: [] }, { name: "Diet 7 UP", price: "$2.19", tags: [] },
-      ]},
-      { title: "Fruit / Sweet", items: [
-        { name: "Apple", price: "$2.00", tags: [] }, { name: "Orange", price: "$2.00", tags: [] },
-        { name: "KitKat", price: "$1.99", tags: [] }, { name: "Big Turk", price: "$1.99", tags: [] }, { name: "Muffin", price: "$1.89", tags: [] },
-      ]},
-    ]},
     { type: "Dinner", time: "4:45 PM", venue: "Whaler's Restaurant", venueLocation: "Red Bay, NL", phone: "709-920-2156", email: "redbaywhalersstation@gmail.com", leadTime: "Orders by 4 PM day before", deadline: "By 4 PM on Day 3", sections: [
       { title: "Appetizer", fixed: true, items: [{ name: "Garden Salad", desc: "Served to all", tags: ["V","GF"] }] },
       { title: "Main", items: [
