@@ -258,15 +258,9 @@ export default function App() {
     const next = {...gSel, [k]: item};
     setGSel(next);
     doSave(gName, next, gNotes);
-    // Send to Google Sheet - find the matching day/meal for the tab name
-    const day = TOUR_DATA.find(dd => dd.day === d);
-    if (day && item) {
+    if (item) {
       const mealTab = `Day ${d} ${mt}`;
-      const isMain = sec.toLowerCase().includes("main") || sec.toLowerCase().includes("sandwich");
-      const isDessert = sec.toLowerCase().includes("dessert");
-      if (isMain) sendToSheet(mealTab, gName, item, "", gNotes);
-      else if (isDessert) sendToSheet(mealTab, gName, "", item, gNotes);
-      else sendToSheet(mealTab, gName, item, "", gNotes);
+      sendToSheet(mealTab, gName, sec, item, gNotes);
     }
   };
   const getPick = (d, mt, sec) => gSel[`${d}|${mt}|${sec}`];
