@@ -192,19 +192,19 @@ function loadAllGuests() {
 
 // Send selection to Google Sheet
 function sendToSheet(mealTab, guestName, section, selection, dietaryNotes) {
-  if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_SCRIPT_URL_HERE") return;
+  if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_SCRIPT_URL_HERE") return;
+  if (!guestName || !selection) return;
   try {
-    const params = new URLSearchParams({
-      mealTab: mealTab,
-      guestName: guestName,
-      section: section,
-      selection: selection || "",
-      dietaryNotes: dietaryNotes || ""
-    });
-    fetch(GOOGLE_SCRIPT_URL + "?" + params.toString())
-      .then(r => console.log("Sent to sheet"))
-      .catch(e => console.log("Sheet sync pending"));
-  } catch(e) { console.log("Sheet sync pending"); }
+    var p = new URLSearchParams();
+    p.append("mealTab", mealTab);
+    p.append("guestName", guestName);
+    p.append("section", section);
+    p.append("selection", selection);
+    p.append("dietaryNotes", dietaryNotes || "");
+    fetch(GOOGLE_SCRIPT_URL + "?" + p.toString())
+      .then(function() { console.log("Sent: " + guestName + " > " + selection); })
+      .catch(function() { console.log("Sheet sync pending"); });
+  } catch(e) { console.log("Sheet error"); }
 }
 export default function App() {
   const [mode, setMode] = useState("splash");
@@ -237,13 +237,15 @@ export default function App() {
   }, []);
 
   const pick = (d, mt, sec, item) => {
-    const k = `${d}|${mt}|${sec}`;
+    const k = d + "|" + mt + "|" + sec;
     const next = {...gSel, [k]: item};
     setGSel(next);
-    doSave(gName, next, gNotes);
-    if (item) {
-      const mealTab = `Day ${d} ${mt}`;
-     sendToSheet(mealTab, gName, sec, item, gNotes || localStorage.getItem('mcp-dietNotes') || '');
+    var notes = gNotes || "";
+    try { if (!notes) notes = localStorage.getItem("mcp-dietNotes") || ""; } catch(e) {}
+    doSave(gName, next, notes);
+    if (item && gName) {
+      var mealTab = "Day " + d + " " + mt;
+      sendToSheet(mealTab, gName, sec, item, notes);
     }
   };
   const getPick = (d, mt, sec) => gSel[`${d}|${mt}|${sec}`];
@@ -251,16 +253,15 @@ export default function App() {
 
   const guestLogin = () => {
     if(!gName.trim()) return;
-    const n = gName.trim();
-    const ex = load("g-"+n.toLowerCase().replace(/\s+/g,"-"));
-    if(ex) { setGSel(ex.selections||{}); setGNotes(ex.notes||""); }
-    else { setGSel({}); setGNotes(""); }
-    save("g-"+n.toLowerCase().replace(/\s+/g,"-"), { name: n, selections: ex ? ex.selections || {} : {}, notes: gNotes, updatedAt: new Date().toISOString() });
-    localStorage.setItem('mcp-dietNotes', gNotes);
+    var n = gName.trim();
+    var ex = load("g-"+n.toLowerCase().replace(/\s+/g,"-"));
+    if(ex) { setGSel(ex.selections||{}); if(ex.notes) setGNotes(ex.notes); }
+    else { setGSel({}); }
+    try { localStorage.setItem("mcp-dietNotes", gNotes || ""); } catch(e) {}
+    save("g-"+n.toLowerCase().replace(/\s+/g,"-"), { name: n, selections: ex ? ex.selections || {} : {}, notes: gNotes || "", updatedAt: new Date().toISOString() });
     setGName(n);
     setMode("guest");
   };
-
   const adminLogin = () => {
     if(pin===ADMIN_PIN) { setPinErr(false); setAllG(loadAllGuests()); setMode("admin"); }
     else setPinErr(true);
