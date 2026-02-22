@@ -243,7 +243,7 @@ export default function App() {
     doSave(gName, next, gNotes);
     if (item) {
       const mealTab = `Day ${d} ${mt}`;
-      sendToSheet(mealTab, gName, sec, item, gNotes);
+     sendToSheet(mealTab, gName, sec, item, gNotes || localStorage.getItem('mcp-dietNotes') || '');
     }
   };
   const getPick = (d, mt, sec) => gSel[`${d}|${mt}|${sec}`];
@@ -256,6 +256,7 @@ export default function App() {
     if(ex) { setGSel(ex.selections||{}); setGNotes(ex.notes||""); }
     else { setGSel({}); setGNotes(""); }
     save("g-"+n.toLowerCase().replace(/\s+/g,"-"), { name: n, selections: ex ? ex.selections || {} : {}, notes: gNotes, updatedAt: new Date().toISOString() });
+    localStorage.setItem('mcp-dietNotes', gNotes);
     setGName(n);
     setMode("guest");
   };
